@@ -1,0 +1,101 @@
+﻿﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Makale Sistemi</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body class="d-flex flex-column min-vh-100" style="background-color: rgba(80, 129, 185, 0.3);">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Makale Sistemi</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        @if (Context.Session.GetString("KullaniciRol") == "Editor")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Editor" asp-action="Index">Makale Yönet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Editor" asp-action="Loglar">Log Kayitlari</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Editor" asp-action="GelenMesajlar">Gelen Mesajlar</a>
+                            </li>
+                        }
+                        else if (Context.Session.GetString("KullaniciRol") == "Hakem")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Hakem" asp-action="Index">Makale Değerlendir</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Hakem"
+                                    asp-action="DegerlendirdigimMakaleler">Değerlendirdiğim
+                                    Makaleler</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Makale" asp-action="MakaleSistemi">Makale Yükle</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Makale" asp-action="MakaleDurumuSorgula">Makale
+                                    Sorgula</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (Context.Session.GetString("KullaniciEmail") != null)
+                        {
+                            <li class="nav-item">
+                                <span class="navbar-text text-white">
+                                    @Context.Session.GetString("KullaniciEmail")
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="CikisYap">Çıkış Yap</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="GirisYap">Giriş Yap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="KayitOl">Kayıt Ol</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-5 flex-grow-1">
+        @RenderBody()
+    </div>
+
+    <button id="scrollToTopBtn" class="btn btn-primary rounded-circle">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <p>&copy; @DateTime.Now.Year - Makale Sistemi</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+</body>
+
+</html>
